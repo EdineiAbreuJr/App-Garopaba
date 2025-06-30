@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estou de Férias - SC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .tropical-bg {
+            background: linear-gradient(45deg, #38b2ac, #4299e1, #9f7aea, #ed8936);
+            background-size: 400% 400%;
+            animation: wave 15s ease infinite;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        .partner-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(45deg, #f6ad55, #f687b3);
+            transform: rotate(15deg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .rating-stars {
+            color: #f6e05e;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-item.active {
+            border-bottom: 3px solid #4299e1;
+            color: #4299e1;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800">
+    <!-- App Container -->
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-lg overflow-hidden relative">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="h-screen flex flex-col items-center justify-center p-6 tropical-bg text-white text-center">
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold mb-2">Estou de Férias</h1>
+                <p class="text-xl">Planeje suas férias em SC com inteligência</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Santa Catarina" class="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg mb-8">
+            <button id="chooseCityBtn" class="bg-white text-teal-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all pulse">
+                Escolher cidade
+            </button>
+        </div>
+        
+        <!-- City Selection Modal -->
+        <div id="cityModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-md max-h-[80vh] overflow-y-auto">
+                <div class="p-4 border-b">
+                    <h3 class="text-xl font-bold text-gray-800">Selecione sua cidade</h3>
+                </div>
+                <div class="p-4">
+                    <div class="space-y-2">
+                        <button class="city-option w-full text-left p-3 bg-teal-100 text-teal-800 rounded-lg font-medium flex justify-between items-center">
+                            Garopaba <span class="bg-teal-500 text-white text-xs px-2 py-1 rounded-full">✅ Disponível</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Imbituba <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Florianópolis <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Balneário Camboriú <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Bombinhas <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Praia do Rosa <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Urubici <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            São Francisco do Sul <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                        <button class="city-option w-full text-left p-3 bg-gray-100 text-gray-500 rounded-lg font-medium flex justify-between items-center" disabled>
+                            Joinville <span class="bg-gray-400 text-white text-xs px-2 py-1 rounded-full">Em breve</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4 border-t">
+                    <button id="closeCityModal" class="w-full bg-gray-200 text-gray-800 py-2 rounded-lg font-medium">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main App (hidden initially) -->
+        <div id="mainApp" class="hidden">
+            <!-- Header -->
+            <div class="bg-teal-500 text-white p-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-xl font-bold">Garopaba</h1>
+                    <p class="text-sm opacity-80">Santa Catarina</p>
+                </div>
+                <button id="changeCityBtn" class="bg-white bg-opacity-20 p-2 rounded-full">
+                    <i class="fas fa-map-marker-alt"></i>
+                </button>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex border-b bg-white">
+                <button class="nav-item flex-1 py-3 text-center font-medium active" data-screen="home">
+                    <i class="fas fa-home mr-1"></i> Início
+                </button>
+                <button class="nav-item flex-1 py-3 text-center font-medium" data-screen="itinerary">
+                    <i class="fas fa-route mr-1"></i> Roteiro
+                </button>
+                <button class="nav-item flex-1 py-3 text-center font-medium" data-screen="places">
+                    <i class="fas fa-map-marked-alt mr-1"></i> Locais
+                </button>
+                <button class="nav-item flex-1 py-3 text-center font-medium" data-screen="profile">
+                    <i class="fas fa-user mr-1"></i> Perfil
+                </button>
+            </div>
+            
+            <!-- Screens -->
+            <div class="overflow-y-auto" style="height: calc(100vh - 130px)">
+                <!-- Home Screen -->
+                <div id="homeScreen" class="p-4">
+                    <h2 class="text-xl font-bold mb-4">O que fazer em Garopaba?</h2>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition-all relative">
+                            <div class="bg-blue-100 p-3 text-center">
+                                <i class="fas fa-robot text-blue-500 text-3xl mb-2"></i>
+                                <h3 class="font-bold text-blue-800">Roteiro Inteligente</h3>
+                                <p class="text-xs text-blue-600">Personalizado por IA</p>
+                            </div>
+                            <button class="w-full bg-blue-500 text-white py-2 text-sm font-medium" data-category="itinerary">
+                                Criar roteiro
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition-all relative">
+                            <div class="bg-green-100 p-3 text-center">
+                                <i class="fas fa-hotel text-green-500 text-3xl mb-2"></i>
+                                <h3 class="font-bold text-green-800">Hotéis & Pousadas</h3>
+                                <p class="text-xs text-green-600">Melhores estadias</p>
+                            </div>
+                            <button class="w-full bg-green-500 text-white py-2 text-sm font-medium" data-category="hotels">
+                                Explorar
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition-all relative">
+                            <div class="bg-red-100 p-3 text-center">
+                                <i class="fas fa-utensils text-red-500 text-3xl mb-2"></i>
+                                <h3 class="font-bold text-red-800">Bares & Restaurantes</h3>
+                                <p class="text-xs text-red-600">Gastronomia local</p>
+                            </div>
+                            <button class="w-full bg-red-500 text-white py-2 text-sm font-medium" data-category="restaurants">
+                                Explorar
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition-all relative">
+                            <div class="bg-purple-100 p-3 text-center">
+                                <i class="fas fa-store text-purple-500 text-3xl mb-2"></i>
+                                <h3 class="font-bold text-purple-800">Lojas & Comércios</h3>
+                                <p class="text-xs text-purple-600">Compras e souvenirs</p>
+                            </div>
+                            <button class="w-full bg-purple-500 text-white py-2 text-sm font-medium" data-category="shops">
+                                Explorar
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition-all relative">
+                            <div class="bg-yellow-100 p-3 text-center">
+                                <i class="fas fa-hiking text-yellow-500 text-3xl mb-2"></i>
+                                <h3 class="font-bold text-yellow-800">Passeios & Trilhas</h3>
+                                <p class="text-xs text-yellow-600">Natureza e aventura</p>
+                            </div>
+                            <button class="w-full bg-yellow-500 text-white py-2 text-sm font-medium" data-category="hiking">
+                                Explorar
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition-all relative">
+                            <div class="bg-gray-100 p-3 text-center">
+                                <i class="fas fa-calendar-alt text-gray-500 text-3xl mb-2"></i>
+                                <h3 class="font-bold text-gray-800">Eventos da Cidade</h3>
+                                <p class="text-xs text-gray-600">Em breve</p>
+                            </div>
+                            <button class="w-full bg-gray-400 text-white py-2 text-sm font-medium" disabled>
+                                Em breve
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg p-4 text-white mb-6">
+                        <h3 class="font-bold mb-2">Quer anunciar seu negócio?</h3>
+                        <p class="text-sm mb-3">Destaque seu estabelecimento para milhares de turistas!</p>
+                        <button class="bg-white text-teal-600 font-medium py-2 px-4 rounded-full text-sm">
+                            Quero anunciar aqui
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <h3 class="font-bold mb-2 text-gray-800">Destaques da semana</h3>
+                        <div class="flex overflow-x-auto space-x-3 pb-2">
+                            <div class="flex-shrink-0 w-48 bg-white rounded-lg shadow overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Pousada" class="w-full h-32 object-cover">
+                                <div class="p-3">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="font-bold text-sm">Pousada Oceano</h4>
+                                        <span class="partner-badge text-xs px-2 py-1 rounded-full text-white">PARCEIRO</span>
+                                    </div>
+                                    <div class="flex mt-1">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-shrink-0 w-48 bg-white rounded-lg shadow overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Restaurante" class="w-full h-32 object-cover">
+                                <div class="p-3">
+                                    <div class="flex justify-between items-start">
+                                        <h4 class="font-bold text-sm">Restaurante Maré</h4>
+                                        <span class="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full">Destaque</span>
+                                    </div>
+                                    <div class="flex mt-1">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">4.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-shrink-0 w-48 bg-white rounded-lg shadow overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1582719471385-c0f7d6689a35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Trilha" class="w-full h-32 object-cover">
+                                <div class="p-3">
+                                    <h4 class="font-bold text-sm">Trilha da Sereia</h4>
+                                    <div class="flex mt-1">
+                                        <div class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Itinerary Screen -->
+                <div id="itineraryScreen" class="p-4 hidden">
+                    <h2 class="text-xl font-bold mb-4">Roteiro Inteligente</h2>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                        <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-lg p-4 text-white mb-4">
+                            <h3 class="font-bold mb-2">Roteiro Premium Personalizado</h3>
+                            <p class="text-sm mb-3">Quer um roteiro 100% personalizado conforme seus objetivos específicos?</p>
+                            <button id="premiumBtn" class="bg-white text-yellow-600 font-medium py-2 px-4 rounded-full text-sm">
+                                Clique aqui por apenas R$39,90
+                            </button>
+                        </div>
+                        <div id="itineraryForm">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Perfil da viagem</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="profile-option bg-gray-100 hover:bg-blue-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-profile="family">
+                                        <i class="fas fa-users mr-2"></i> Família
+                                    </button>
+                                    <button class="profile-option bg-gray-100 hover:bg-pink-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-profile="couple">
+                                        <i class="fas fa-heart mr-2"></i> Casal
+                                    </button>
+                                    <button class="profile-option bg-gray-100 hover:bg-green-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-profile="friends">
+                                        <i class="fas fa-user-friends mr-2"></i> Amigos
+                                    </button>
+                                    <button class="profile-option bg-gray-100 hover:bg-yellow-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-profile="solo">
+                                        <i class="fas fa-user mr-2"></i> Sozinho
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Datas da viagem</label>
+                                <div class="flex space-x-2">
+                                    <input type="date" id="startDate" class="flex-1 border border-gray-300 rounded-lg p-2">
+                                    <input type="date" id="endDate" class="flex-1 border border-gray-300 rounded-lg p-2">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Que tipo de roteiro você está procurando?</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="objective-option bg-gray-100 hover:bg-teal-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-objective="beach">
+                                        <i class="fas fa-umbrella-beach mr-2"></i> Praias
+                                    </button>
+                                    <button class="objective-option bg-gray-100 hover:bg-teal-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-objective="hiking">
+                                        <i class="fas fa-hiking mr-2"></i> Trilhas
+                                    </button>
+                                    <button class="objective-option bg-gray-100 hover:bg-teal-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-objective="gastronomy">
+                                        <i class="fas fa-utensils mr-2"></i> Gastronômico
+                                    </button>
+                                    <button class="objective-option bg-gray-100 hover:bg-teal-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-objective="culture">
+                                        <i class="fas fa-landmark mr-2"></i> Cultural
+                                    </button>
+                                    <button class="objective-option bg-gray-100 hover:bg-teal-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-objective="adventure">
+                                        <i class="fas fa-compass mr-2"></i> Passeios
+                                    </button>
+                                    <button class="objective-option bg-gray-100 hover:bg-teal-100 text-gray-800 py-2 px-4 rounded-lg font-medium flex items-center justify-center" data-objective="relax">
+                                        <i class="fas fa-spa mr-2"></i> Relax
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4 hidden" id="locationSection">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Usar sua localização atual para otimizar o roteiro?</label>
+                                <div class="flex space-x-2">
+                                    <button id="useLocationBtn" class="flex-1 bg-teal-500 hover:bg-teal-600 text-white py-2 rounded-lg font-medium">
+                                        <i class="fas fa-location-arrow mr-2"></i> Usar localização
+                                    </button>
+                                    <button id="dontUseLocationBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-lg font-medium">
+                                        Não usar
+                                    </button>
+                                </div>
+                                <p id="locationStatus" class="text-xs mt-1 text-gray-500 hidden"></p>
+                            </div>
+
+                            <button id="generateItineraryBtn" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-robot mr-2"></i> Gerar Roteiro com IA
+                            </button>
+                        </div>
+                        
+                        <div id="itineraryLoading" class="hidden py-8 text-center">
+                            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500 mx-auto mb-4"></div>
+                            <p>Consultando previsão do tempo e criando roteiro personalizado...</p>
+                        </div>
+                        
+                        <div id="itineraryResult" class="hidden">
+                            <!-- Will be filled by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Places Screen -->
+                <div id="placesScreen" class="p-4 hidden">
+                    <h2 class="text-xl font-bold mb-4">Locais em Garopaba</h2>
+                    
+                    <div class="mb-4">
+                        <div class="flex overflow-x-auto space-x-2 pb-2">
+                            <button class="category-filter flex-shrink-0 bg-teal-500 text-white px-4 py-1 rounded-full text-sm font-medium" data-category="all">
+                                Todos
+                            </button>
+                            <button class="category-filter flex-shrink-0 bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium" data-category="hotels">
+                                <i class="fas fa-hotel mr-1"></i> Hotéis
+                            </button>
+                            <button class="category-filter flex-shrink-0 bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium" data-category="restaurants">
+                                <i class="fas fa-utensils mr-1"></i> Restaurantes
+                            </button>
+                            <button class="category-filter flex-shrink-0 bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium" data-category="shops">
+                                <i class="fas fa-store mr-1"></i> Lojas
+                            </button>
+                            <button class="category-filter flex-shrink-0 bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium" data-category="hiking">
+                                <i class="fas fa-hiking mr-1"></i> Trilhas
+                            </button>
+                            <button class="category-filter flex-shrink-0 bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium" data-category="indoor">
+                                <i class="fas fa-home mr-1"></i> Indoor
+                            </button>
+                            <button class="category-filter flex-shrink-0 bg-gray-200 text-gray-800 px-4 py-1 rounded-full text-sm font-medium" data-category="outdoor">
+                                <i class="fas fa-sun mr-1"></i> Outdoor
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="placesList">
+                        <!-- Will be filled by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Profile Screen -->
+                <div id="profileScreen" class="p-4 hidden">
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6 text-center">
+                        <div class="w-20 h-20 bg-teal-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-teal-500 text-3xl"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-1">Visitante</h3>
+                        <p class="text-gray-600 text-sm mb-4">Garopaba, SC</p>
+                        <button class="bg-gray-100 text-gray-800 py-2 px-4 rounded-full text-sm font-medium">
+                            Fazer login
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                        <h3 class="font-bold mb-3">Minhas avaliações</h3>
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-star text-4xl mb-2 opacity-30"></i>
+                            <p>Você ainda não avaliou nenhum local</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <h3 class="font-bold mb-3">Configurações</h3>
+                        <div class="space-y-3">
+                            <button class="w-full text-left py-2 flex items-center">
+                                <i class="fas fa-bell text-gray-500 mr-3 w-6"></i>
+                                <span>Notificações</span>
+                                <i class="fas fa-chevron-right text-gray-400 ml-auto"></i>
+                            </button>
+                            <button class="w-full text-left py-2 flex items-center">
+                                <i class="fas fa-moon text-gray-500 mr-3 w-6"></i>
+                                <span>Tema escuro</span>
+                                <i class="fas fa-chevron-right text-gray-400 ml-auto"></i>
+                            </button>
+                            <button class="w-full text-left py-2 flex items-center">
+                                <i class="fas fa-info-circle text-gray-500 mr-3 w-6"></i>
+                                <span>Sobre o app</span>
+                                <i class="fas fa-chevron-right text-gray-400 ml-auto"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for places
+        const placesData = [
+            {
+                id: 1,
+                name: "Pousada Oceano",
+                description: "Pousada à beira-mar com vista privilegiada e café da manhã regional.",
+                category: "hotels",
+                type: "hotel",
+                indoor: false,
+                outdoor: true,
+                rating: 4.5,
+                reviews: 128,
+                image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: true,
+                price: "$$$"
+            },
+            {
+                id: 2,
+                name: "Restaurante Maré",
+                description: "Especializado em frutos do mar com ingredientes frescos da região.",
+                category: "restaurants",
+                type: "restaurant",
+                indoor: true,
+                outdoor: true,
+                rating: 4.0,
+                reviews: 87,
+                image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: false,
+                featured: true,
+                price: "$$"
+            },
+            {
+                id: 3,
+                name: "Trilha da Sereia",
+                description: "Trilha moderada com vista panorâmica para o mar e a cidade.",
+                category: "hiking",
+                type: "hiking",
+                indoor: false,
+                outdoor: true,
+                rating: 5.0,
+                reviews: 45,
+                image: "https://images.unsplash.com/photo-1582719471385-c0f7d6689a35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: false,
+                price: "Gratuito"
+            },
+            {
+                id: 4,
+                name: "Café da Praça",
+                description: "Cafeteria aconchegante com doces caseiros e café especial.",
+                category: "restaurants",
+                type: "cafe",
+                indoor: true,
+                outdoor: false,
+                rating: 4.7,
+                reviews: 63,
+                image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: true,
+                price: "$"
+            },
+            {
+                id: 5,
+                name: "Artesanatos do Sul",
+                description: "Loja de artesanato local com peças únicas e tradicionais.",
+                category: "shops",
+                type: "shop",
+                indoor: true,
+                outdoor: false,
+                rating: 4.2,
+                reviews: 34,
+                image: "https://images.unsplash.com/photo-1556740738-b6a17126b77a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: false,
+                price: "$$"
+            },
+            {
+                id: 6,
+                name: "Praia da Ferrugem",
+                description: "Uma das praias mais bonitas da região, ideal para surfistas.",
+                category: "hiking",
+                type: "beach",
+                indoor: false,
+                outdoor: true,
+                rating: 4.8,
+                reviews: 215,
+                image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: false,
+                price: "Gratuito"
+            },
+            {
+                id: 7,
+                name: "Hotel Vista Linda",
+                description: "Hotel 4 estrelas com piscina e spa, localizado no centro.",
+                category: "hotels",
+                type: "hotel",
+                indoor: true,
+                outdoor: true,
+                rating: 4.3,
+                reviews: 92,
+                image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: true,
+                price: "$$$$"
+            },
+            {
+                id: 8,
+                name: "Museu da Cidade",
+                description: "Exposição sobre a história e cultura de Garopaba.",
+                category: "shops",
+                type: "museum",
+                indoor: true,
+                outdoor: false,
+                rating: 3.9,
+                reviews: 41,
+                image: "https://images.unsplash.com/photo-1580976600342-9a5d5a1d0a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                partner: false,
+                price: "$"
+            }
+        ];
+
+        // Sample itinerary data
+        const itineraryData = {
+            family: {
+                sunny: [
+                    {
+                        time: "09:00",
+                        activity: "Café da manhã no Café da Praça",
+                        description: "Comece o dia com um café da manhã reforçado",
+                        type: "cafe"
+                    },
+                    {
+                        time: "10:30",
+                        activity: "Praia da Ferrugem",
+                        description: "Dia de sol na praia mais famosa de Garopaba",
+                        type: "beach"
+                    },
+                    {
+                        time: "12:30",
+                        activity: "Almoço no Restaurante Maré",
+                        description: "Frutos do mar frescos com vista para o mar",
+                        type: "restaurant"
+                    },
+                    {
+                        time: "14:30",
+                        activity: "Trilha da Sereia",
+                        description: "Trilha leve com vista panorâmica",
+                        type: "hiking"
+                    },
+                    {
+                        time: "17:00",
+                        activity: "Artesanatos do Sul",
+                        description: "Compre lembranças da viagem",
+                        type: "shop"
+                    }
+                ],
+                cloudy: [
+                    {
+                        time: "09:00",
+                        activity: "Café da manhã no Café da Praça",
+                        description: "Comece o dia com um café da manhã reforçado",
+                        type: "cafe"
+                    },
+                    {
+                        time: "10:30",
+                        activity: "Museu da Cidade",
+                        description: "Conheça a história de Garopaba",
+                        type: "museum"
+                    },
+                    {
+                        time: "12:30",
+                        activity: "Almoço no Restaurante Maré",
+                        description: "Frutos do mar frescos com vista para o mar",
+                        type: "restaurant"
+                    },
+                    {
+                        time: "14:30",
+                        activity: "Artesanatos do Sul",
+                        description: "Compre lembranças da viagem",
+                        type: "shop"
+                    },
+                    {
+                        time: "16:00",
+                        activity: "Cinema Municipal",
+                        description: "Sessão de cinema para a família",
+                        type: "cinema"
+                    }
+                ],
+                rainy: [
+                    {
+                        time: "09:00",
+                        activity: "Café da manhã no Café da Praça",
+                        description: "Comece o dia com um café da manhã reforçado",
+                        type: "cafe"
+                    },
+                    {
+                        time: "10:30",
+                        activity: "Museu da Cidade",
+                        description: "Conheça a história de Garopaba",
+                        type: "museum"
+                    },
+                    {
+                        time: "12:30",
+                        activity: "Almoço no Restaurante Maré",
+                        description: "Frutos do mar frescos com vista para o mar",
+                        type: "restaurant"
+                    },
+                    {
+                        time: "14:30",
+                        activity: "Spa do Hotel Vista Linda",
+                        description: "Relaxe com tratamentos especiais",
+                        type: "spa"
+                    },
+                    {
+                        time: "16:30",
+                        activity: "Cinema Municipal",
+                        description: "Sessão de cinema para a família",
+                        type: "cinema"
+                    }
+                ]
+            },
+            couple: {
+                sunny: [
+                    {
+                        time: "09:30",
+                        activity: "Café da manhã no Café da Praça",
+                        description: "Café especial com doces caseiros",
+                        type: "cafe"
+                    },
+                    {
+                        time: "11:00",
+                        activity: "Praia do Silveira",
+                        description: "Praia tranquila e romântica",
+                        type: "beach"
+                    },
+                    {
+                        time: "13:00",
+                        activity: "Almoço no Restaurante Maré",
+                        description: "Frutos do mar frescos com vista para o mar",
+                        type: "restaurant"
+                    },
+                    {
+                        time: "15:00",
+                        activity: "Passeio de barco",
+                        description: "Passeio romântico pela costa",
+                        type: "boat"
+                    },
+                    {
+                        time: "18:00",
+                        activity: "Jantar à beira-mar",
+                        description: "Jantar com vista para o pôr do sol",
+                        type: "restaurant"
+                    }
+                ],
+                cloudy: [
+                    {
+                        time: "10:00",
+                        activity: "Café da manhã no Café da Praça",
+                        description: "Café especial com doces caseiros",
+                        type: "cafe"
+                    },
+                    {
+                        time: "11:30",
+                        activity: "Spa do Hotel Vista Linda",
+                        description: "Massagem relaxante para casais",
+                        type: "spa"
+                    },
+                    {
+                        time: "13:30",
+                        activity: "Almoço no Restaurante Maré",
+                        description: "Frutos do mar frescos com vista para o mar",
+                        type: "restaurant"
+                    },
+                    {
+                        time: "15:30",
+                        activity: "Museu da Cidade",
+                        description: "Conheça a história de Garopaba",
+                        type: "museum"
+                    },
+                    {
+                        time: "17:30",
+                        activity: "Degustação de vinhos",
+                        description: "Experiência gastronômica exclusiva",
+                        type: "wine"
+                    }
+                ],
+                rainy: [
+                    {
+                        time: "10:00",
+                        activity: "Café da manhã no Café da Praça",
+                        description: "Café especial com doces caseiros",
+                        type: "cafe"
+                    },
+                    {
+                        time: "11:30",
+                        activity: "Spa do Hotel Vista Linda",
+                        description: "Massagem relaxante para casais",
+                        type: "spa"
+                    },
+                    {
+                        time: "13:30",
+                        activity: "Almoço no Restaurante Maré",
+                        description: "Frutos do mar frescos com vista para o mar",
+                        type: "restaurant"
+                    },
+                    {
+                        time: "15:30",
+                        activity: "Workshop de culinária",
+                        description: "Aprenda a fazer pratos locais",
+                        type: "workshop"
+                    },
+                    {
+                        time: "18:00",
+                        activity: "Jantar à luz de velas",
+                        description: "Jantar romântico em ambiente intimista",
+                        type: "restaurant"
+                    }
+                ]
+            }
+        };
+
+        // Weather icons mapping
+        const weatherIcons = {
+            sunny: "fas fa-sun text-yellow-400",
+            cloudy: "fas fa-cloud text-gray-400",
+            rainy: "fas fa-cloud-rain text-blue-400"
+        };
+
+        // Type icons mapping
+        const typeIcons = {
+            hotel: "fas fa-hotel text-blue-500",
+            restaurant: "fas fa-utensils text-red-500",
+            cafe: "fas fa-coffee text-brown-500",
+            shop: "fas fa-store text-purple-500",
+            hiking: "fas fa-hiking text-green-500",
+            beach: "fas fa-umbrella-beach text-teal-500",
+            museum: "fas fa-landmark text-yellow-500",
+            spa: "fas fa-spa text-pink-500",
+            boat: "fas fa-ship text-blue-400",
+            wine: "fas fa-wine-glass-alt text-purple-300",
+            workshop: "fas fa-utensils text-orange-500",
+            cinema: "fas fa-film text-gray-600",
+            landmark: "fas fa-monument text-yellow-600"
+        };
+
+        // DOM elements
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const mainApp = document.getElementById('mainApp');
+        const cityModal = document.getElementById('cityModal');
+        const chooseCityBtn = document.getElementById('chooseCityBtn');
+        const closeCityModal = document.getElementById('closeCityModal');
+        const changeCityBtn = document.getElementById('changeCityBtn');
+        const cityOptions = document.querySelectorAll('.city-option');
+        const navItems = document.querySelectorAll('.nav-item');
+        const screens = {
+            home: document.getElementById('homeScreen'),
+            itinerary: document.getElementById('itineraryScreen'),
+            places: document.getElementById('placesScreen'),
+            profile: document.getElementById('profileScreen')
+        };
+        const categoryButtons = document.querySelectorAll('[data-category]');
+        const profileOptions = document.querySelectorAll('.profile-option');
+        const generateItineraryBtn = document.getElementById('generateItineraryBtn');
+        const itineraryForm = document.getElementById('itineraryForm');
+        const itineraryLoading = document.getElementById('itineraryLoading');
+        const itineraryResult = document.getElementById('itineraryResult');
+        const placesList = document.getElementById('placesList');
+        const categoryFilters = document.querySelectorAll('.category-filter');
+
+        // App state
+        let currentScreen = 'home';
+        let selectedProfile = null;
+        let selectedObjective = null;
+        let selectedCategory = 'all';
+        let userLocation = null;
+
+        // Initialize the app
+        function initApp() {
+            // Show welcome screen initially
+            welcomeScreen.classList.remove('hidden');
+            mainApp.classList.add('hidden');
+            
+            // Render places list
+            renderPlacesList();
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // City selection
+            chooseCityBtn.addEventListener('click', () => cityModal.classList.remove('hidden'));
+            closeCityModal.addEventListener('click', () => cityModal.classList.add('hidden'));
+            changeCityBtn.addEventListener('click', () => cityModal.classList.remove('hidden'));
+            
+            // City options
+            cityOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    if (!option.disabled) {
+                        cityModal.classList.add('hidden');
+                        welcomeScreen.classList.add('hidden');
+                        mainApp.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            // Navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const screen = item.getAttribute('data-screen');
+                    switchScreen(screen);
+                    
+                    // Update active state
+                    navItems.forEach(navItem => navItem.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+            
+            // Category buttons on home screen
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.getAttribute('data-category');
+                    
+                    if (category === 'itinerary') {
+                        switchScreen('itinerary');
+                        navItems.forEach(navItem => navItem.classList.remove('active'));
+                        document.querySelector('[data-screen="itinerary"]').classList.add('active');
+                    } else {
+                        selectedCategory = category;
+                        switchScreen('places');
+                        navItems.forEach(navItem => navItem.classList.remove('active'));
+                        document.querySelector('[data-screen="places"]').classList.add('active');
+                        renderPlacesList();
+                    }
+                });
+            });
+            
+            // Profile selection for itinerary
+            profileOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    profileOptions.forEach(opt => opt.classList.remove('bg-blue-100', 'bg-pink-100', 'bg-green-100', 'bg-yellow-100'));
+                    
+                    const profile = option.getAttribute('data-profile');
+                    selectedProfile = profile;
+                    
+                    // Add background color based on profile
+                    switch(profile) {
+                        case 'family':
+                            option.classList.add('bg-blue-100');
+                            break;
+                        case 'couple':
+                            option.classList.add('bg-pink-100');
+                            break;
+                        case 'friends':
+                            option.classList.add('bg-green-100');
+                            break;
+                        case 'solo':
+                            option.classList.add('bg-yellow-100');
+                            break;
+                    }
+                });
+            });
+            
+            // Objective selection
+            document.querySelectorAll('.objective-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.objective-option').forEach(opt => 
+                        opt.classList.remove('bg-teal-100', 'border-teal-500', 'border-2')
+                    );
+                    
+                    const objective = option.getAttribute('data-objective');
+                    selectedObjective = objective;
+                    
+                    // Add selected style
+                    option.classList.add('bg-teal-100', 'border-teal-500', 'border-2');
+                });
+            });
+
+            // Location buttons
+            useLocationBtn.addEventListener('click', getLocation);
+            dontUseLocationBtn.addEventListener('click', () => {
+                userLocation = null;
+                locationStatus.textContent = "Localização não será usada";
+                locationStatus.classList.remove('hidden');
+            });
+
+            // Generate itinerary button
+            generateItineraryBtn.addEventListener('click', generateItinerary);
+            
+            // Category filters on places screen
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    selectedCategory = filter.getAttribute('data-category');
+                    
+                    // Update active filter
+                    categoryFilters.forEach(f => {
+                        if (f === filter) {
+                            f.classList.remove('bg-gray-200');
+                            f.classList.add('bg-teal-500', 'text-white');
+                        } else {
+                            f.classList.add('bg-gray-200', 'text-gray-800');
+                            f.classList.remove('bg-teal-500', 'text-white');
+                        }
+                    });
+                    
+                    renderPlacesList();
+                });
+            });
+        }
+
+        // Switch between screens
+        function switchScreen(screen) {
+            currentScreen = screen;
+            
+            // Hide all screens
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+            
+            // Show current screen
+            screens[screen].classList.remove('hidden');
+        }
+
+        // Render places list based on selected category
+        function renderPlacesList() {
+            placesList.innerHTML = '';
+            
+            // Filter places based on selected category
+            let filteredPlaces = placesData;
+            
+            if (selectedCategory !== 'all') {
+                filteredPlaces = placesData.filter(place => {
+                    return place.category === selectedCategory || 
+                           place.type === selectedCategory ||
+                           (selectedCategory === 'indoor' && place.indoor) ||
+                           (selectedCategory === 'outdoor' && place.outdoor);
+                });
+            }
+            
+            // Render each place
+            filteredPlaces.forEach(place => {
+                const placeElement = document.createElement('div');
+                placeElement.className = 'bg-white rounded-lg shadow-md overflow-hidden mb-4 card-hover transition-all relative';
+                
+                // Partner badge
+                if (place.partner) {
+                    placeElement.innerHTML += `
+                        <div class="partner-badge text-xs px-2 py-1 rounded-full text-white">
+                            PARCEIRO
+                        </div>
+                    `;
+                } else if (place.featured) {
+                    placeElement.innerHTML += `
+                        <div class="partner-badge bg-gray-600 text-xs px-2 py-1 rounded-full text-white">
+                            DESTAQUE
+                        </div>
+                    `;
+                }
+                
+                // Place image
+                placeElement.innerHTML += `
+                    <img src="${place.image}" alt="${place.name}" class="w-full h-48 object-cover">
+                `;
+                
+                // Place info
+                placeElement.innerHTML += `
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">${place.name}</h3>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">${place.price}</span>
+                        </div>
+                        
+                        <p class="text-gray-600 text-sm mb-3">${place.description}</p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="rating-stars mr-2">
+                                    ${renderStars(place.rating)}
+                                </div>
+                                <span class="text-xs text-gray-500">${place.rating} (${place.reviews})</span>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button class="bg-gray-100 text-gray-800 p-2 rounded-full">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <button class="bg-teal-500 text-white p-2 rounded-full">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                placesList.appendChild(placeElement);
+            });
+            
+            // Add "Want to advertise here" card at the end
+            if (filteredPlaces.length > 0) {
+                const advertiseCard = document.createElement('div');
+                advertiseCard.className = 'bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg p-4 text-white mt-6';
+                advertiseCard.innerHTML = `
+                    <h3 class="font-bold mb-2">Seu negócio aqui</h3>
+                    <p class="text-sm mb-3">Destaque seu estabelecimento para milhares de turistas!</p>
+                    <button class="bg-white text-teal-600 font-medium py-2 px-4 rounded-full text-sm">
+                        Quero anunciar aqui
+                    </button>
+                `;
+                placesList.appendChild(advertiseCard);
+            }
+        }
+
+        // Render star rating
+        function renderStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Get user location
+        function getLocation() {
+            if (navigator.geolocation) {
+                locationStatus.textContent = "Obtendo localização...";
+                locationStatus.classList.remove('hidden');
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        locationStatus.textContent = "Localização obtida com sucesso!";
+                    },
+                    (error) => {
+                        locationStatus.textContent = "Não foi possível obter a localização: " + error.message;
+                        userLocation = null;
+                    }
+                );
+            } else {
+                locationStatus.textContent = "Geolocalização não é suportada pelo seu navegador";
+                locationStatus.classList.remove('hidden');
+                userLocation = null;
+            }
+        }
+
+        // Generate itinerary
+        function generateItinerary() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            // Validate inputs
+            if (!selectedProfile) {
+                alert('Por favor, selecione um perfil de viagem');
+                return;
+            }
+            
+            if (!startDate || !endDate) {
+                alert('Por favor, selecione as datas da viagem');
+                return;
+            }
+            
+            if (!selectedObjective) {
+                alert('Por favor, selecione o objetivo principal da viagem');
+                return;
+            }
+            
+            // Show loading state
+            itineraryForm.classList.add('hidden');
+            itineraryLoading.classList.remove('hidden');
+            
+            // Calculate trip duration in days
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const tripDuration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            
+            // Simulate API call with setTimeout
+            setTimeout(() => {
+                // Hide loading, show result
+                itineraryLoading.classList.add('hidden');
+                
+                // For demo purposes, we'll use random weather
+                const weatherTypes = ['sunny', 'cloudy', 'rainy'];
+                const randomWeather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+                
+                // Generate optimized itinerary based on user preferences
+                const itineraryDays = generateOptimizedItinerary(
+                    selectedProfile, 
+                    selectedObjective, 
+                    randomWeather, 
+                    tripDuration,
+                    userLocation
+                );
+                
+                // Render itinerary with user preferences
+                renderItinerary(randomWeather, itineraryDays, selectedObjective, userLocation);
+                
+                itineraryResult.classList.remove('hidden');
+            }, 2000);
+        }
+
+        // Generate optimized itinerary based on user preferences
+        function generateOptimizedItinerary(profile, objective, weather, duration, location) {
+            // This is a simplified version - in a real app, this would call an API
+            // with all the user preferences and location data
+            
+            // Base activities based on objective
+            let baseActivities = [];
+            
+            switch(objective) {
+                case 'beach':
+                    baseActivities = [
+                        { type: 'beach', time: '09:00', activity: 'Praia da Ferrugem', description: 'Manhã de sol na praia mais famosa' },
+                        { type: 'restaurant', time: '12:30', activity: 'Almoço à beira-mar', description: 'Frutos do mar frescos' },
+                        { type: 'beach', time: '14:30', activity: 'Praia do Silveira', description: 'Tarde relaxante na praia mais tranquila' }
+                    ];
+                    break;
+                case 'hiking':
+                    baseActivities = [
+                        { type: 'hiking', time: '08:00', activity: 'Trilha da Sereia', description: 'Trilha moderada com vista panorâmica' },
+                        { type: 'restaurant', time: '12:30', activity: 'Almoço no Restaurante Maré', description: 'Comida local após a trilha' },
+                        { type: 'beach', time: '15:00', activity: 'Descanso na Praia', description: 'Relaxar após a trilha' }
+                    ];
+                    break;
+                case 'gastronomy':
+                    baseActivities = [
+                        { type: 'cafe', time: '09:00', activity: 'Café da Praça', description: 'Café especial com doces caseiros' },
+                        { type: 'restaurant', time: '12:30', activity: 'Almoço no Restaurante Maré', description: 'Frutos do mar frescos' },
+                        { type: 'wine', time: '17:00', activity: 'Degustação de vinhos', description: 'Vinhos locais e harmonização' }
+                    ];
+                    break;
+                case 'culture':
+                    baseActivities = [
+                        { type: 'museum', time: '10:00', activity: 'Museu da Cidade', description: 'Conheça a história local' },
+                        { type: 'restaurant', time: '12:30', activity: 'Almoço típico', description: 'Pratos tradicionais da região' },
+                        { type: 'landmark', time: '15:00', activity: 'Centro Histórico', description: 'Caminhada pelos pontos históricos' }
+                    ];
+                    break;
+                case 'adventure':
+                    baseActivities = [
+                        { type: 'hiking', time: '08:00', activity: 'Trilha da Sereia', description: 'Trilha com vista panorâmica' },
+                        { type: 'boat', time: '13:00', activity: 'Passeio de barco', description: 'Explorar a costa' },
+                        { type: 'beach', time: '16:00', activity: 'Surf na Praia', description: 'Aulas com instrutores locais' }
+                    ];
+                    break;
+                case 'relax':
+                    baseActivities = [
+                        { type: 'spa', time: '10:00', activity: 'Spa do Hotel Vista Linda', description: 'Massagem relaxante' },
+                        { type: 'restaurant', time: '13:00', activity: 'Almoço leve', description: 'Comida saudável' },
+                        { type: 'beach', time: '15:00', activity: 'Praia tranquila', description: 'Tarde de relaxamento' }
+                    ];
+                    break;
+            }
+            
+            // Adjust based on profile
+            if (profile === 'family') {
+                // Add family-friendly activities
+                baseActivities.forEach(act => {
+                    if (act.type === 'restaurant') {
+                        act.description += ' (Cardápio infantil disponível)';
+                    }
+                });
+            } else if (profile === 'couple') {
+                // Add romantic touches
+                baseActivities.forEach(act => {
+                    if (act.type === 'restaurant') {
+                        act.activity += ' (Jantar romântico)';
+                    }
+                });
+            }
+            
+            // Adjust based on weather
+            if (weather === 'rainy') {
+                // Replace outdoor activities with indoor alternatives
+                baseActivities = baseActivities.map(act => {
+                    if (act.type === 'beach' || act.type === 'hiking') {
+                        return {
+                            type: 'museum',
+                            time: act.time,
+                            activity: 'Museu da Cidade',
+                            description: 'Programa cultural para dias chuvosos'
+                        };
+                    }
+                    return act;
+                });
+            }
+            
+            // For multi-day trips, duplicate and vary the activities
+            let fullItinerary = [];
+            for (let i = 0; i < duration; i++) {
+                // Clone and adjust activities for each day
+                const dayActivities = JSON.parse(JSON.stringify(baseActivities));
+                dayActivities.forEach(act => {
+                    // Add day number to activities
+                    if (duration > 1) {
+                        act.activity = `Dia ${i+1}: ${act.activity}`;
+                    }
+                });
+                fullItinerary = fullItinerary.concat(dayActivities);
+            }
+            
+            // If location is available, add note about nearby options
+            if (location) {
+                fullItinerary.forEach(act => {
+                    act.description += ` (Otimizado para sua localização atual)`;
+                });
+            }
+            
+            return fullItinerary;
+        }
+
+        // Render itinerary
+        function renderItinerary(weather, days, objective, location) {
+            itineraryResult.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="font-bold text-lg mb-2">Seu roteiro personalizado</h3>
+                    <div class="flex items-center mb-2">
+                        <i class="${weatherIcons[weather]} text-2xl mr-2"></i>
+                        <span class="capitalize">${weather === 'sunny' ? 'Ensolarado' : weather === 'cloudy' ? 'Nublado' : 'Chuvoso'}</span>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <p><span class="font-medium">Objetivo:</span> ${getObjectiveName(objective)}</p>
+                        ${location ? `<p><span class="font-medium">Localização:</span> Roteiro otimizado a partir da sua posição atual</p>` : ''}
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    ${days.map(day => `
+                        <div class="bg-white rounded-lg shadow-md p-4 slide-in">
+                            <div class="flex items-start">
+                                <div class="bg-teal-100 text-teal-800 rounded-lg p-2 mr-3 flex-shrink-0">
+                                    <div class="font-bold text-center">${day.time}</div>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">${day.activity}</h4>
+                                    <p class="text-sm text-gray-600 mb-2">${day.description}</p>
+                                    ${(day.type === 'hiking' || day.type === 'boat') ? `
+                                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-2 mb-2">
+                                        <p class="text-xs text-blue-800 mb-1">Quer fazer esse ${day.type === 'hiking' ? 'trilha' : 'passeio'} com todo conforto e segurança?</p>
+                                        <button class="w-full bg-blue-500 text-white py-1 px-3 rounded-full text-xs font-medium">
+                                            Contrate um guia local
+                                        </button>
+                                    </div>
+                                    ` : ''}
+                                    <div class="flex items-center justify-between mt-2">
+                                        <div class="flex items-center text-sm">
+                                            <i class="${typeIcons[day.type]} mr-1"></i>
+                                            <span class="text-gray-500">${getTypeName(day.type)}</span>
+                                        </div>
+                                        <button onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(day.activity)}', '_blank')" 
+                                                class="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-2 rounded flex items-center">
+                                            <i class="fas fa-map-marker-alt mr-1"></i> Como chegar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="mt-6 bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg p-4 text-white">
+                    <h3 class="font-bold mb-2">Gostou do roteiro?</h3>
+                    <p class="text-sm mb-3">Avalie as sugestões para melhorarmos cada vez mais!</p>
+                    <button class="bg-white text-teal-600 font-medium py-2 px-4 rounded-full text-sm">
+                        Avaliar roteiro
+                    </button>
+                </div>
+            `;
+        }
+
+        // Get objective name for display
+        function getObjectiveName(objective) {
+            const objectiveNames = {
+                gastronomy: "Gastronômico",
+                beach: "Conhecer praias",
+                hiking: "Trilhas e natureza",
+                culture: "Cultural",
+                relax: "Relaxar",
+                adventure: "Aventura"
+            };
+            
+            return objectiveNames[objective] || objective;
+        }
+
+        // Get type name for display
+        function getTypeName(type) {
+            const typeNames = {
+                hotel: "Hotel/Pousada",
+                restaurant: "Restaurante",
+                cafe: "Cafeteria",
+                shop: "Loja",
+                hiking: "Trilha",
+                beach: "Praia",
+                museum: "Museu",
+                spa: "Spa",
+                boat: "Passeio de barco",
+                wine: "Degustação",
+                workshop: "Workshop",
+                cinema: "Cinema"
+            };
+            
+            return typeNames[type] || type;
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+    <!-- Premium Payment Modal -->
+    <div id="premiumModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg w-full max-w-md">
+            <div class="p-4 border-b">
+                <h3 class="text-xl font-bold text-gray-800">Roteiro Premium</h3>
+            </div>
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <i class="fas fa-crown text-yellow-500 text-5xl mb-4"></i>
+                    <h4 class="text-lg font-bold mb-2">Roteiro 100% Personalizado</h4>
+                    <p class="text-gray-600 mb-4">Por apenas R$39,90 você receberá:</p>
+                    <ul class="text-left space-y-2 mb-6">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Roteiro adaptado aos seus interesses</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Sugestões exclusivas</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Atualizações em tempo real</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i> Suporte personalizado</li>
+                    </ul>
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <p class="font-bold text-lg">Total: R$39,90</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="cancelPremiumBtn" class="bg-gray-200 text-gray-800 py-2 rounded-lg font-medium">
+                        Cancelar
+                    </button>
+                    <button id="confirmPremiumBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-medium">
+                        <i class="fas fa-lock mr-2"></i> Pagar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add premium modal functionality
+        const premiumBtn = document.getElementById('premiumBtn');
+        const premiumModal = document.getElementById('premiumModal');
+        const cancelPremiumBtn = document.getElementById('cancelPremiumBtn');
+        const confirmPremiumBtn = document.getElementById('confirmPremiumBtn');
+
+        premiumBtn.addEventListener('click', () => {
+            premiumModal.classList.remove('hidden');
+        });
+
+        cancelPremiumBtn.addEventListener('click', () => {
+            premiumModal.classList.add('hidden');
+        });
+
+        confirmPremiumBtn.addEventListener('click', () => {
+            // Here you would integrate with payment gateway
+            alert('Redirecionando para o pagamento...');
+            premiumModal.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
